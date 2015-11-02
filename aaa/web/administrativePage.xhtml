@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Administrative page</title>
+    </h:head>
+    <h:body>
+        
+        <h:form>
+            <p>Logged in As :
+            <h:outputText value="#{requester.username}" rendered="#{loginAdmin.adminLoggedIn}"></h:outputText>
+            </p>
+            </h:form>
+        <h:form>
+            
+            <h:commandButton id="logout" value="Logout" action="#{loginAdmin.logout}" rendered="#{loginAdmin.adminLoggedIn}"></h:commandButton>
+        </h:form>
+        <h2>What do you want to do</h2>
+        <h:form>
+            <h:selectOneMenu id="operation"  value="#{itemAddManagedBean.operation}">
+
+                <f:selectItem id="AddItem" itemLabel="Add an item" itemValue="aItem" />
+                <f:selectItem id="EditItem" itemLabel="Update Inventory" itemValue="eItem" />
+                <f:selectItem id="removeItem" itemLabel="Remove an item" itemValue="rItem" />
+                <f:selectItem id="ListItem" itemLabel="List the items" itemValue="lItem" />
+                <f:selectItem id="deactivateCustomer" itemLabel="Ban Customer" itemValue="dCustomer" />
+                <f:selectItem id="listCustomer" itemLabel="List of Customers" itemValue="lCustomer" />
+            </h:selectOneMenu>
+            <h:commandButton value="submit" action="#{itemAddManagedBean.findOperation}"></h:commandButton>
+        </h:form>
+
+        <hr/>
+
+        <h:form rendered ="#{itemAddManagedBean.addItem!=null}">
+            <h:panelGrid>
+              
+                <h:outputLabel for ="itemType" value="Enter name: "></h:outputLabel>
+                <h:inputText id="itemType" value="#{itemAddManagedBean.itemName}" required="true" requiredMessage="Item name is required"></h:inputText>
+                <h:outputLabel for ="itemQuantity" value="Enter Quantity: "></h:outputLabel>
+                <h:inputText id="itemQuantity" value="#{itemAddManagedBean.numberOfItems}" required="true" requiredMessage="Item quantity is required"></h:inputText>
+                
+                <h:outputLabel for="itemPrice" value="Enter the Price: "></h:outputLabel>
+                <h:inputText id="itemPrice" value="#{itemAddManagedBean.itemPrice}" required="true" requiredMessage="Item price is required"></h:inputText>
+                <h:outputLabel for="itemDesc" value="Enter Description: "></h:outputLabel>
+                <h:inputTextarea id="itemDesc" value="#{itemAddManagedBean.itemDescription}" required="true" requiredMessage="Item description is required"></h:inputTextarea>
+            </h:panelGrid>
+            <h:commandButton  value="Add" action="#{itemAddManagedBean.addItem}"></h:commandButton>
+            <hr/>
+        </h:form>
+
+        
+        <h:form rendered ="#{itemAddManagedBean.editInventory!=null}">
+            <h:panelGrid>
+                <h:selectOneMenu id="cboStatus" value="#{itemAddManagedBean.itemName}">
+                <f:selectItems value="#{itemAddManagedBean.itemaddbean.listItems()}"></f:selectItems>
+            </h:selectOneMenu>
+                <hr/>
+                <h:outputLabel for ="itemQuantity1" value="Enter Quantity: "></h:outputLabel>
+                <h:inputText id="itemQuantity1" value="#{itemAddManagedBean.numberOfItems}" 
+                             required="true" requiredMessage="Item name is required"></h:inputText>
+                <h:outputLabel for="itemPrice1" value="Enter the Price: "></h:outputLabel>
+                <h:inputText id="itemPrice1" value="#{itemAddManagedBean.itemPrice}" 
+                             required="true" requiredMessage="Item price is required"></h:inputText>
+                <h:outputLabel for="itemDesc1" value="Enter Description: "></h:outputLabel>
+                <h:inputTextarea id="itemDesc1" value="#{itemAddManagedBean.itemDescription}"></h:inputTextarea>
+            </h:panelGrid>
+            <h:commandButton  value="Update" action="#{itemAddManagedBean.editInventory}"></h:commandButton>
+            <h:outputText value="#{itemAddManagedBean.message}" rendered="#{!itemAddManagedBean.message}"></h:outputText>
+            <hr/>
+        </h:form>
+        
+        
+        <h:form rendered ="#{itemAddManagedBean.listItem!=null}">
+            <p>
+                List of Items in the Webshop
+
+                <h:dataTable value="#{itemAddManagedBean.itemaddbean.listItems()}" var="item"
+                             >
+                    <h:column>    				
+                        <f:facet name="header"> Name</f:facet>    				
+                            #{item.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Quantity</f:facet>
+                            #{item.numberOfItems}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Single Price</f:facet>
+                            #{item.itemPrice}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                            #{item.itemDescription}
+                    </h:column>
+                </h:dataTable>
+            </p>
+            <hr/>
+        </h:form>
+
+        <h:form rendered ="#{itemAddManagedBean.removeItem!=null}">
+            <p>
+                Remove an Item from the Webshop
+               <h:dataTable value="#{itemAddManagedBean.itemaddbean.listItems()}" var="item"
+                             >
+                    <h:column>    				
+                        <f:facet name="header"> Name</f:facet>    				
+                            #{item.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Quantity</f:facet>
+                            #{item.numberOfItems}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Single Price</f:facet>
+                            #{item.itemPrice}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                            #{item.itemDescription}
+                    </h:column>
+                </h:dataTable>
+            </p>
+            <h:selectOneMenu id="cboStatus" value="#{itemAddManagedBean.itemName}">
+                <f:selectItems value="#{itemAddManagedBean.itemaddbean.listItems()}"></f:selectItems>
+            </h:selectOneMenu>
+            <h:commandButton  value="Remove" action="#{itemAddManagedBean.removeItem}"></h:commandButton>
+            <hr/>
+        </h:form>
+
+
+        <h:form rendered ="#{itemAddManagedBean.listCustomer!=null}">
+            <p>
+                List of Customers in the Webshop
+
+                <h:dataTable value="#{customerManagedBean.custController.listCustomers()}" var="customer"
+                             >
+                    <h:column>    				
+                        <f:facet name="header">Name</f:facet>    				
+                            #{customer.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">user Id</f:facet>
+                            #{customer.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Email</f:facet>
+                            #{customer.email}
+                    </h:column>
+                </h:dataTable>
+            </p>
+
+            <hr/>
+        </h:form>
+
+        <h:form rendered ="#{itemAddManagedBean.deactivateCustomer!=null}">
+           
+            <h3>Ban a customer from the Webshop</h3>
+                <h:dataTable value="#{customerManagedBean.custController.listCustomers()}" var="customer"
+                             >
+                    <h:column>    				
+                        <f:facet name="header">Name</f:facet>    				
+                            #{customer.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">User Id</f:facet>
+                            #{customer.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"> Email</f:facet>
+                            #{customer.email}
+                    </h:column>
+                    
+                </h:dataTable>
+           
+            <h:panelGrid>
+                <h:selectOneMenu id="cboStatus" value="#{customerManagedBean.userId}">
+                    <f:selectItems value="#{customerManagedBean.custController.listCustomers()}"></f:selectItems>
+                </h:selectOneMenu>
+                <h:commandButton  value="Ban User" action="#{customerManagedBean.removeUser}"></h:commandButton>
+            </h:panelGrid>
+            <hr/>
+        </h:form>
+
+
+    </h:body>
+</html>
+

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Shopping Page</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p>
+                You are logged in as:
+                <h:outputText value="#{requester.username}" rendered="#{login.loggedIn}"></h:outputText>
+                <h:commandButton id="logout" value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/>
+            </p>
+        </h:form>
+
+        <h:form>
+            <p>
+                List of Items in the Webshop
+                <h:dataTable value="#{itemAddManagedBean.itemaddbean.listItems()}" var="item">
+                    <h:column>    				
+                        <f:facet name="header">Name</f:facet>    				
+                            #{item.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Quantity</f:facet>
+                            #{item.numberOfItems}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                            #{item.itemPrice}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                            #{item.itemDescription}
+                    </h:column>
+                </h:dataTable>
+
+
+            </p>
+            <h:selectOneMenu id="cboStatus" value="#{customerManagedBean.genomeName}">
+                <f:selectItems value="#{itemAddManagedBean.itemaddbean.listItems()}"></f:selectItems>
+            </h:selectOneMenu>
+
+            <br/>
+            <h:outputLabel for="amount" value="Quantity"></h:outputLabel>
+            <h:inputText id="amount" value="#{customerManagedBean.amount}" required="true" requiredMessage="Specifiy the amount please"></h:inputText>
+            <h:commandButton id="cart" value="Add to Cart" action="#{customerManagedBean.addGenomeToCart}"/>
+            <hr/>
+        </h:form>
+
+
+        <h:form>
+            <h:commandButton id="showCart" value="Show Cart" action="cartPage"/>
+            <h:outputText style="color: rosybrown" value="#{customerManagedBean.cartResult}" rendered="#{!customerManagedBean.cartResult}"></h:outputText>
+
+        </h:form>
+
+
+
+    </h:body>
+</html>

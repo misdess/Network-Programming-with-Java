@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>APG Webshop</title>
+    </h:head>
+    <h:body>
+        <p>
+            <br/>
+        </p>
+        <h2 style="color: rosybrown" align="center" >  Welcome to APG Webshop </h2>
+        <p>
+            <br/>
+        </p>
+        <div align="left">
+        <h:form id="loginForm" style="color:gray"> 
+
+            <h:panelGrid columns="2" rendered="#{!login.loggedIn}"> 
+                <h:outputLabel for="username">User Id:</h:outputLabel> 
+                <h:inputText id="username" value="#{requester.username}" required="true" requiredMessage="User Id is required"/> 
+                <h:outputLabel for="password">Password:</h:outputLabel> 
+                <h:inputSecret id="password" value="#{requester.password}" required="true" requiredMessage="Password is required"/> 
+            </h:panelGrid> 
+            <h:commandButton id="login" value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"/> 
+            <h:commandButton id="logout" value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/> 
+        </h:form>
+            </div>
+        <p>
+            <hr/>
+            
+        </p>
+         <div style="width: 500px" align="center">
+        <h:form id="registrationForm"  rendered="#{!login.loggedIn}" style="color:gray">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="userName1" value="Enter User Full Name" ></h:outputLabel>
+                <h:inputText id="userName1" value="#{customerManagedBean.fullName}" required="true" requiredMessage="Full name is required"></h:inputText>
+                
+                <h:outputLabel for="userId" value="Enter User Id"></h:outputLabel>
+                <h:inputText id="userId" value="#{customerManagedBean.userId}" required="true" requiredMessage="User Id is required"></h:inputText>
+
+                <h:outputLabel for="userPs" value="Enter Password"></h:outputLabel>
+                <h:inputSecret id="userPs" value="#{customerManagedBean.password}" required="true" requiredMessage="Password is required"></h:inputSecret>
+
+                <h:outputLabel for="userEmail" value="Enter Email"></h:outputLabel>
+                <h:inputText id="userEmail" value="#{customerManagedBean.email}" required="true" requiredMessage="Email name is required"
+                             validatorMessage="Invalid email format">
+                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                </h:inputText>
+            
+            </h:panelGrid>
+                <h:commandButton value="Register" action="#{customerManagedBean.acceptNewUser}"></h:commandButton>
+                <h:outputText value="#{customerManagedBean.message}" rendered="#{!customerManagedBean.message}"></h:outputText>
+
+
+        </h:form>
+         </div>
+    </h:body>
+</html>
+
